@@ -8,6 +8,9 @@ As you write your methods, you should optimize for time on the `enqueue()` and
 
 The Stack class that you will use has been provided to you.
 """
+# enqueue is a method that adds an item to the back of the data structure
+# dequeue is a method that removes the item in fron of the data structure your working with
+
 class Stack:
     def __init__(self):
         self.data = []

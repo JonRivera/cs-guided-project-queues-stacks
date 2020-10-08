@@ -11,8 +11,6 @@ not remove the item.
 *Note: Your stacks will contain only integers. You should be able to get a
 runtime of O(1) for push(), pop(), and get_max().*
 """
-
-
 class Stack:
     def __init__(self):
         """Initialize an empty stack"""
@@ -29,7 +27,7 @@ class Stack:
         if not self.items:
             return None
 
-        return self.items.pop()
+        return self.items.pop() # O(1)
 
     def peek(self):
         """Return the last item without removing it"""
@@ -37,33 +35,51 @@ class Stack:
             return None
         return self.items[-1]
 
-
-# Understand:
-# We are trying find the largest element for a given stack
-# Implement a get_max() method that returns this element
-# Plan
-# Using 2 stack classes
-# The first stack stores the elements
-# The second stack keeps track of the biggest element
-# If max_stack is empty then store the input inside this stack -> compare the current item to the one
-# In Max stack -> if the current item is less than the one store in max stack pop the item in max stack
-# and push the bigger
-# Element back into this stack
 class MaxStack:
     def __init__(self):
         # Your code here
-        # Tracks max
-        max_stack = Stack()
-        stack
+        self.stack = Stack()
+        # this variable will always hold on to our max value in the stack
+        # we want the history of all maxes in our stack  
+        self.maxes = Stack() 
 
     def push(self, item):
         """Add a new item onto the top of our stack."""
         # Your code here
+        self.stack.push(item)
+        # check to see if `self.maxes` needs to be updated 
+        if len(self.maxes.items) == 0 or self.maxes.peek() < item:
+            self.maxes.push(item)
 
     def pop(self):
         """Remove and return the top item from our stack."""
         # Your code here
+        # peek the top element of the stack 
+        # if it matches our `self.max`, we need to update `self.max` 
+        # to be the max of the remaining stack elements
+        if self.stack.peek() == self.maxes.peek():
+            self.maxes.pop() 
+
+        return self.stack.pop()
 
     def get_max(self):
-        """The last item in maxes_stack is the max item in our stack."""
         # Your code here
+        # we can't mess with the order of elements in our `self.stack` 
+        # use a sort that copies the input before sorting them 
+        # return sorted(self.stack.items)[-1] # O(n log n)
+        # use the `max` function 
+        # return max(self.storage.items) # O(n)
+        return self.maxes.peek()
+
+
+max_stack = MaxStack()
+max_stack.push(98)
+max_stack.push(15)
+max_stack.push(27)
+max_stack.push(101)
+max_stack.push(25)
+
+print(max_stack.get_max())
+print(max_stack.pop())
+print(max_stack.pop())
+print(max_stack.get_max())
